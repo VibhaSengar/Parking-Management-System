@@ -1,0 +1,128 @@
+#include <ESP8266WiFi.h>
+const char* ssid     = "Vibha"; // Your ssid
+const char* password = "vibhasengar"; // Your Password
+
+const int SWITCH1=D5;
+const int SWITCH2=D1;
+const int SWITCH3=D2;
+const int SWITCH4=D3;
+const int SWITCH5=D6;
+WiFiServer server(80);
+void setup() {
+  Serial.begin(9600);
+  pinMode(SWITCH1,INPUT_PULLUP);
+   pinMode(SWITCH2,INPUT_PULLUP);
+    pinMode(SWITCH3,INPUT_PULLUP);
+     pinMode(SWITCH4,INPUT_PULLUP);
+     pinMode(SWITCH5,INPUT_PULLUP);
+  Serial.println();
+Serial.println();
+Serial.print("Connecting to ");
+Serial.println(ssid);
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+delay(500);
+Serial.print(".");
+}
+Serial.println("");
+Serial.println("WiFi is connected");
+server.begin();
+Serial.println("Server started");
+Serial.println(WiFi.localIP());
+
+ }
+void loop() {
+  
+
+   
+  WiFiClient client = server.available();
+//client.println("HTTP/1.1 200 OK");
+client.println("Content-Type: text/html");
+//client.println("Connection: close");  // the connection will be closed after completion of the response
+client.println("Refresh: 5");  // update the page after 10 sec
+client.println();
+client.println("<!DOCTYPE HTML>");
+client.println("<html>");
+client.print("<p style='text-align: center;'><span style='font-size: x-large;'><strong>IOT BASED CAR PARKING</strong></span></p>");
+//client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>Temperature  ");
+//client.println(temp_celsius);
+//client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>Temperature (F) = ");
+//client.println(temp_fahrenheit);
+client.print("</p>");
+client.println("</html>");
+delay(5000);
+if(digitalRead(SWITCH1)==LOW){
+  client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #FF0000;'><strong style='font-size: large;'>1 SLOTE FILLED ");
+   
+   
+   
+}
+ else
+  {
+    client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>1 SLOTE EMPTY ");
+    
+  }
+if(digitalRead(SWITCH2)==LOW){
+  client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #FF0000;'><strong style='font-size: large;'>2 SLOTE FILLED  ");
+   
+   
+   
+}
+ else
+  {
+    client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>2 SLOTE EMPTY ");
+   
+  }
+  if(digitalRead(SWITCH3)==LOW){
+  client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #FF0000;'><strong style='font-size: large;'>3 SLOTE FILLED  ");
+   
+   
+   
+}
+ else
+  {
+    client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>3 SLOTE EMPTY ");
+    
+  }
+  if(digitalRead(SWITCH4)==LOW){
+  client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #FF0000;'><strong style='font-size: large;'>4 SLOTE FILLED  ");
+   
+   
+   
+}
+ else
+  {
+    client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>4 SLOTE EMPTY ");
+   }
+  if(digitalRead(SWITCH5)==LOW){
+  client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #FF0000;'><strong style='font-size: large;'>5 SLOTE FILLED  ");
+   
+   
+   
+}
+ else
+  {
+    client.println("<!DOCTYPE HTML>");
+    client.println("<html>");
+    client.print("<p style='text-align: center;'><span style='color: #0000ff;'><strong style='font-size: large;'>5 SLOTE EMPTY ");
+      
+  }
+}

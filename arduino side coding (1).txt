@@ -1,0 +1,181 @@
+
+#include <LiquidCrystal.h> 
+
+LiquidCrystal lcd(7,6,5,4,3,2);
+int A;
+
+int B;
+
+int t;
+
+int ctr=0;
+#include <Servo.h>
+Servo myservo; 
+#define ServoM 12 
+#define Bright 11 
+#define Exit A1 
+#define In A0 
+#define BarLow 180 
+#define BarUp  80
+#define CAPACITY 5 
+#define INTEN 80 
+
+
+
+
+void setup() {
+  lcd.begin(16,2);
+
+lcd.print("  Iot Based   ");
+lcd.setCursor(0,1);
+
+lcd.print("Parking System     ");
+
+delay(2000);
+  myservo.attach(ServoM); 
+
+  pinMode(Exit, INPUT); 
+  pinMode(In, INPUT); 
+
+  digitalWrite(Exit, LOW); // Connect Pull-Up resistor.
+  digitalWrite(In, LOW); // Connect Pull-Up resistor.
+
+ 
+
+  analogWrite(Bright, 255 * INTEN / 100);
+  myservo.write(BarLow); //Barrier in the low position
+  // delay(1000);
+}
+
+int Available = 5; // Number of places available.
+
+void loop() {
+  A = analogRead(A0);
+
+B = analogRead(A1);
+
+t = 300;
+
+if(A < t && B > t)
+
+{
+
+//ctr = ctr + 1;
+
+delay(200);
+
+}
+
+else
+
+{
+
+ctr = ctr;
+
+}
+
+if(A > t && B < t)
+
+{
+
+//ctr = ctr -1;
+
+delay(200);
+
+}
+
+else
+
+{
+
+ctr = ctr;
+
+}
+
+lcd.setCursor(0,0);
+
+lcd.print("Slote Filled :         ");
+
+lcd.setCursor(15,0);
+
+lcd.print(ctr);
+
+delay(200);
+
+//lcd.clear();
+
+
+   if ( SensorIn() == 1 )
+  {
+    if (Available != 0) {
+      Available--;
+      ctr = ctr + 1;
+      myservo.write(BarUp);
+      delay(2000);
+      myservo.write(BarLow);
+    }
+  }
+  if (digitalRead(Exit) == 1)
+  {
+    if (Available != CAPACITY) {
+      Available++;
+      ctr = ctr - 1;
+      myservo.write(BarUp);
+      delay(2000);
+      myservo.write(BarLow);
+    }
+  }
+     if (ctr>4)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Parking Full : 0  ");
+
+  }
+
+if (ctr<5)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Slote Empty  : 1            ");
+  }
+if (ctr<4)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Slote Empty  : 2            ");
+  
+ }
+if (ctr<3)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Slote Empty  : 3            ");
+  
+ }
+if (ctr<2)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Slote Empty  : 4            ");
+ 
+ }
+if (ctr<1)
+  {
+   
+    lcd.setCursor(0,1);
+
+lcd.print("Slote Empty  : 5            ");
+  
+      
+}
+}
+
+int SensorIn(void) {
+  return ( digitalRead(In) );
+}
